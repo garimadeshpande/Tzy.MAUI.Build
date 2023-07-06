@@ -32,6 +32,7 @@ jobs:
           ./**/*.aab
           ./**/*.apk
     - name: upload artifact to App Center
+    - uses: actions/AppCenter-Github-Action@v1
       with:
         appName: Garima Bhardwaj/Test-Android
         token: ${{secrets.APP_CENTER_TOKEN}}
