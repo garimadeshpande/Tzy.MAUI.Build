@@ -24,7 +24,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build */**/Tzy.MAUI.DotNet8.csproj -c Release -f net8.0.0-preview.6-android /p:AndroidSigningKeyStore=myapp.keystore /p:AndroidSigningKeyAlias=key /p:AndroidSigningKeyPass="Holzoo@123" /p:AndroidSigningStorePass="Holzoo@123" --no-restore
+      run: dotnet build Tzy.MAUI.DotNet8.csproj -c Release -f net8.0-android /p:AndroidSigningKeyStore=myapp.keystore /p:AndroidSigningKeyAlias=key /p:AndroidSigningKeyPass="Holzoo@123" /p:AndroidSigningStorePass="Holzoo@123" --no-restore
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.0
       with:
