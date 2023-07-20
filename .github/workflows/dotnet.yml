@@ -33,7 +33,7 @@ jobs:
         name: appcenter-artifact
         path: com.companyname.tzy.maui.build-Signed.apk
     - name: Deploy to App Center
-      uses: microsoft/appcenter-action@v3
+      uses: actions/appcenter-action@v3
       with:
         app_secret: ${{secrets.APP_CENTER_TOKEN}}
         app_path: ./com.companyname.tzy.maui.build-Signed.apk
