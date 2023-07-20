@@ -30,12 +30,8 @@ jobs:
     - name: Upload artifact to App Center
       uses: actions/upload-artifact@v3.1.0
       with:
-        name: appcenter-artifact
-        path: com.companyname.tzy.maui.build-Signed.apk
-    - name: Deploy to App Center
-      uses: actions/appcenter-action@v3
-      with:
-        app_secret: ${{secrets.APP_CENTER_TOKEN}}
-        app_path: ./com.companyname.tzy.maui.build-Signed.apk
-        distribution_group: Testers
-        notify_testers: true
+       appName: Garima Bhardwaj/Test-Android
+       token: ${{secrets.APP_CENTER_TOKEN}}
+       group: Testers
+       file: /home/runner/work/com.companyname.tzy.maui.build-Signed.apk
+       notifyTesters: true
