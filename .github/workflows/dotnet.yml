@@ -38,4 +38,4 @@ jobs:
         token: ${{secrets.APP_CENTER_TOKEN}}
         group: Testers
         file: /home/runner/work/com.companyname.tzy.maui.build-Signed.apk
-        notifyTesters: true
+        notifyTesters: false
