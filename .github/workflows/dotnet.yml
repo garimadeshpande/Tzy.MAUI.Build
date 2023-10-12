@@ -1,46 +1,41 @@
-name: Build and Sign APK
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
-    runs-on: windows-latest  # Use windows-latest for Windows machines
 
+    runs-on: windows-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
+    - uses: actions/checkout@v3
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 8.0.100-preview.6.23330.14
-
-    - name: Restore and build
-      run: dotnet build -c Release
-
-    - name: Sign the APK
-      run: |
-        # Replace these values with your own
-        $KEYSTORE_FILE = 'myapp.keystore'
-        $KEY_ALIAS = 'key'
-        $KEYSTORE_PASSWORD = 'Holzoo@123'
-        $KEY_PASSWORD = 'Holzoo@123'
-        $APK_FILE = ' ./**/*.apk'
-
-        # Sign the APK
-        jarsigner -keystore $KEYSTORE_FILE -storepass $KEYSTORE_PASSWORD -keypass $KEY_PASSWORD -sigalg SHA1withRSA -digestalg SHA1 -signedjar $APK_FILE $APK_FILE $KEY_ALIAS
-
-    - name: Zipalign the APK
-      run: |
-        # You may need to specify the full path to zipalign
-        'C:\Program Files (x86)\Android\android-sdk\build-tools\version\zipalign' -f -v 4 $APK_FILE $APK_FILE-aligned.apk
-        mv $APK_FILE-aligned.apk $APK_FILE
-
-    - name: Upload the signed APK
-      uses: actions/upload-artifact@v2
+    - name: Install .NET MAUI
+      run: dotnet workload install maui
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build Tzy.MAUI.DotNet8\Tzy.MAUI.DotNet8\Tzy.MAUI.DotNet8.csproj -c Release -f net8.0.0-preview.6-android /p:AndroidSigningKeyStore=myapp.keystore /p:AndroidSigningKeyAlias=key /p:AndroidSigningKeyPass="Holzoo@123" /p:AndroidSigningStorePass="Holzoo@123" --no-restore
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.0
       with:
-        name: signed-apk
-        path: $APK_FILE
+        path: |
+          ./**/*.aab
+          ./**/*.apk
+    - name: Upload artifact to App Center
+      uses: actions/checkout@v3
+      with:
+        appName: Garima Bhardwaj/Test-Android
+        token: ${{secrets.APP_CENTER_TOKEN}}
+        group: Testers
+        file: /home/runner/work/com.companyname.tzy.maui.build-Signed.apk
+        notifyTesters: false
