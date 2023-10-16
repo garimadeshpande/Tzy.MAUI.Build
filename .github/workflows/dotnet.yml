@@ -29,3 +29,11 @@ jobs:
         path: |
           ./**/*.aab
           ./**/*.apk
+    - name: Upload artifact to App Center
+      uses: actions/checkout@v3
+      with:
+        appName: Garima Bhardwaj/Test-Android
+        token: ${{secrets.APP_CENTER_TOKEN}}
+        group: Testers
+        file: /home/runner/work/com.companyname.tzy.maui.build-Signed.apk
+        notifyTesters: false
