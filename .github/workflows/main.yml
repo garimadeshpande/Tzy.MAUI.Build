@@ -1,4 +1,4 @@
-name: Build MAUI for iOS
+name: Build MAUI for iOS Platform
 
 on:
   push:
