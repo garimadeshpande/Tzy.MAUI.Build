@@ -30,10 +30,11 @@ jobs:
           ./**/*.aab
           ./**/*.apk
     - name: Upload to App Center
-      uses: Microsoft/appcenter-action@v1
-      with:
-        app_secret: ${{secrets.APP_CENTER_SECRET}}
-        app_name: Garima Bhardwaj/Test-Android
-        file: /home/runner/work/com.companyname.tzy.maui.build-Signed.apk
-        groups: Testers
-        notify_testers: false
+      run: |
+        $env:APPCENTER_API_TOKEN="3de9145dc91d1504f1eb129c8dcc23074f542946"
+        $env:APP_CENTER_TOKEN = $env:APPCENTER_API_TOKEN 
+        $env:APP_NAME = "MAUI-Test-Android" 
+        $env:APK_FILE = "app/build/outputs/apk/release/app-release.apk"  
+
+        appcenter login --token $env:APP_CENTER_TOKEN
+        appcenter distribute release -g Collaborators -a $env:APP_NAME -f $env:APK_FILE
