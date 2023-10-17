@@ -1,0 +1,35 @@
+name: Build MAUI for iOS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 8.0.100-preview.6.23330.14
+
+    - name: Restore NuGet packages
+      run: dotnet restore
+
+    - name: Build for iOS
+      run: dotnet build -t:iOS -c Release
+
+    - name: Archive for iOS
+      run: dotnet publish -t:iOS -c Release --framework net8.0 -o ./publish
+
+    - name: Upload iOS artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: ios-artifacts
+        path: ./publish
+
