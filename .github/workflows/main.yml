@@ -27,9 +27,3 @@ jobs:
     - name: Archive for iOS
       run: dotnet publish -t:iOS -c Release --framework net8.0 -o ./publish
 
-    - name: Upload iOS artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: ios-artifacts
-        path: ./publish
-
